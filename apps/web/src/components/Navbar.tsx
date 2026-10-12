@@ -50,8 +50,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu, isMobileMenu
                 <span className="font-semibold text-zinc-900 text-sm tracking-tight">
                   ESS Portal
                 </span>
-                <span className="hidden sm:inline text-3xs text-zinc-400 font-mono uppercase tracking-wider">
-                  v1.0
+                <span className="hidden sm:inline text-3xs text-zinc-500 font-medium px-1.5 py-0.5 rounded bg-zinc-100 border border-zinc-200">
+                  Created by Nisfal Filsa
                 </span>
               </div>
             </div>

@@ -1,5 +1,7 @@
 # Employee Attendance & Monitoring System (Enterprise Fullstack)
 
+> **Created by Nisfal Filsa** &bull; Fullstack Developer Skill Test
+
 Sistem Absensi Karyawan WFH dan Monitoring HRD berbasis **NestJS Microservices Architecture**, **React.js**, **Dual Database Separation**, **Message Queue / Event Streaming**, dan **Realtime WebSockets (Socket.io)**.
 
 ---

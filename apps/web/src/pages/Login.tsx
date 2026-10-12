@@ -144,8 +144,12 @@ export const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-3xs text-zinc-400 mt-6">
-          Employee Self Service &bull; Internal HR Network
+        <p className="text-center text-3xs text-zinc-500 mt-6 flex items-center justify-center space-x-1.5">
+          <span>Employee Self Service</span>
+          <span>&bull;</span>
+          <span className="font-semibold text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+            Created by Nisfal Filsa
+          </span>
         </p>
       </div>
     </div>

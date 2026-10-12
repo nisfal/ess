@@ -183,6 +183,17 @@ export const AppContent: React.FC = () => {
         </main>
       </div>
 
+      {/* Watermark Footer */}
+      <footer className="mt-auto border-t border-zinc-200/80 bg-white py-3 px-4 text-center text-3xs text-zinc-500 flex items-center justify-center space-x-2">
+        <span>ESS Portal</span>
+        <span>&bull;</span>
+        <span className="font-medium text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+          Created by Nisfal Filsa
+        </span>
+        <span>&bull;</span>
+        <span>Fullstack Developer Skill Test</span>
+      </footer>
+
       {/* MOBILE BOTTOM NAVIGATION BAR */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-zinc-200 px-2 py-1.5 flex justify-around">
         {currentNavItems.map((item) => {
