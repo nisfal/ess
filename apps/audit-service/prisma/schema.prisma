@@ -1,0 +1,19 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/@prisma/audit-client"
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  entityType  String   // e.g. "EMPLOYEE_PROFILE"
+  entityId    String   // e.g. User UUID
+  action      String   // e.g. "PROFILE_UPDATE", "PHONE_CHANGE", "PASSWORD_CHANGE"
+  changes     String   // JSON formatted string representation of changed attributes
+  performedBy String?  // User email or identifier
+  timestamp   DateTime @default(now())
+}

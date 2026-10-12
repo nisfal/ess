@@ -1,0 +1,17 @@
+{
+  "name": "employee-attendance-monitoring-system",
+  "version": "1.0.0",
+  "description": "Employee WFH Attendance and HRD Monitoring Microservices System",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "start:dev": "concurrently -n \"GATEWAY,AUDIT,FRONTEND\" -c \"cyan.bold,magenta.bold,green.bold\" \"npm --prefix apps/api-gateway run start:dev\" \"npm --prefix apps/audit-service run start:dev\" \"npm --prefix apps/web run dev\"",
+    "build": "npm --prefix apps/api-gateway run build && npm --prefix apps/audit-service run build && npm --prefix apps/web run build",
+    "db:setup": "npm --prefix apps/api-gateway run db:setup && npm --prefix apps/audit-service run db:setup"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

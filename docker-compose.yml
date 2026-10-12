@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Primary Database (Operational App DB)
+  postgres-app:
+    image: postgres:16-alpine
+    container_name: ess-postgres-app
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ess_user
+      POSTGRES_PASSWORD: ess_password
+      POSTGRES_DB: ess_app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_app_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ess_user -d ess_app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Audit Database (Separated Database for Event Logging)
+  postgres-audit:
+    image: postgres:16-alpine
+    container_name: ess-postgres-audit
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: audit_user
+      POSTGRES_PASSWORD: audit_password
+      POSTGRES_DB: ess_audit_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_audit_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U audit_user -d ess_audit_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # RabbitMQ Message Broker
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: ess-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"   # AMQP protocol
+      - "15672:15672" # Management Web UI
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_app_data:
+  postgres_audit_data:
