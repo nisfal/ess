@@ -87,7 +87,7 @@ export const AppContent: React.FC = () => {
         {/* DESKTOP SIDEBAR */}
         <aside className="hidden md:block w-52 shrink-0">
           <nav className="sticky top-20 space-y-1">
-            <div className="px-3 pb-2 text-3xs font-semibold text-zinc-400 uppercase tracking-wider">
+            <div className="px-3 pb-2 text-xs font-medium text-zinc-500">
               {isEmployee ? 'Self Service' : 'Administration'}
             </div>
 
@@ -184,14 +184,12 @@ export const AppContent: React.FC = () => {
       </div>
 
       {/* Watermark Footer */}
-      <footer className="mt-auto border-t border-zinc-200/80 bg-white py-3 px-4 text-center text-3xs text-zinc-500 flex items-center justify-center space-x-2">
+      <footer className="mt-auto border-t border-zinc-200/80 bg-white py-3 px-4 text-center text-xs text-zinc-500 flex flex-wrap items-center justify-center gap-3">
         <span>ESS Portal</span>
-        <span>&bull;</span>
-        <span className="font-medium text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+        <span className="font-medium text-zinc-800 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
           Created by Nisfal Filsa
         </span>
-        <span>&bull;</span>
-        <span>Fullstack Developer Skill Test</span>
+        <span className="text-zinc-400">Fullstack Developer Skill Test</span>
       </footer>
 
       {/* MOBILE BOTTOM NAVIGATION BAR */}

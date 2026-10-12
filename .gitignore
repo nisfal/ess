@@ -48,3 +48,8 @@ Thumbs.db
 uploads/
 scratch/
 temp/
+
+# Agent Skills
+.agents/
+skills-lock.json
+

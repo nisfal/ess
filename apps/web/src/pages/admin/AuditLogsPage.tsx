@@ -96,12 +96,12 @@ export const AuditLogsPage: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-zinc-50/80 text-3xs font-semibold uppercase tracking-wider text-zinc-500 border-b border-zinc-200">
+              <thead className="bg-zinc-50/80 text-xs font-medium text-zinc-600 border-b border-zinc-200">
                 <tr>
-                  <th className="px-5 py-3">Timestamp</th>
-                  <th className="px-5 py-3">Event Type</th>
-                  <th className="px-5 py-3">Initiator</th>
-                  <th className="px-5 py-3">Stream Payload</th>
+                  <th className="px-5 py-2.5">Timestamp</th>
+                  <th className="px-5 py-2.5">Event type</th>
+                  <th className="px-5 py-2.5">Initiator</th>
+                  <th className="px-5 py-2.5">Stream payload</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">

@@ -109,8 +109,8 @@ export const Login: React.FC = () => {
 
           {/* Discreet Demo Switcher */}
           <div className="mt-6 pt-5 border-t border-zinc-100">
-            <p className="text-3xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 text-center">
-              Evaluation Credentials
+            <p className="text-xs font-medium text-zinc-500 mb-2 text-center">
+              Evaluation test accounts
             </p>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <button
@@ -144,13 +144,12 @@ export const Login: React.FC = () => {
           </div>
         </div>
 
-        <p className="text-center text-3xs text-zinc-500 mt-6 flex items-center justify-center space-x-1.5">
+        <div className="text-center text-xs text-zinc-500 mt-6 flex flex-wrap items-center justify-center gap-2">
           <span>Employee Self Service</span>
-          <span>&bull;</span>
-          <span className="font-semibold text-zinc-700 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
+          <span className="font-medium text-zinc-800 bg-zinc-100 px-2 py-0.5 rounded border border-zinc-200">
             Created by Nisfal Filsa
           </span>
-        </p>
+        </div>
       </div>
     </div>
   );

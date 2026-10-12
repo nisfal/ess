@@ -82,8 +82,8 @@ export const AttendanceMonitoringPage: React.FC = () => {
       <div className="bg-white border border-zinc-200/80 rounded-xl p-4 shadow-xs">
         <form onSubmit={handleFilterSubmit} className="flex flex-col sm:flex-row items-end gap-3">
           <div className="flex-1 w-full sm:w-auto">
-            <label className="block text-3xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-              Search Employee
+            <label className="block text-xs font-medium text-zinc-700 mb-1">
+              Search employee
             </label>
             <div className="relative">
               <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-zinc-400" />
@@ -98,8 +98,8 @@ export const AttendanceMonitoringPage: React.FC = () => {
           </div>
 
           <div className="w-full sm:w-40">
-            <label className="block text-3xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-              From Date
+            <label className="block text-xs font-medium text-zinc-700 mb-1">
+              From date
             </label>
             <input
               type="date"
@@ -110,8 +110,8 @@ export const AttendanceMonitoringPage: React.FC = () => {
           </div>
 
           <div className="w-full sm:w-40">
-            <label className="block text-3xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
-              To Date
+            <label className="block text-xs font-medium text-zinc-700 mb-1">
+              To date
             </label>
             <input
               type="date"
@@ -160,13 +160,13 @@ export const AttendanceMonitoringPage: React.FC = () => {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-zinc-50/80 text-3xs font-semibold uppercase tracking-wider text-zinc-500 border-b border-zinc-200">
+              <thead className="bg-zinc-50/80 text-xs font-medium text-zinc-600 border-b border-zinc-200">
                 <tr>
-                  <th className="px-5 py-3">Employee</th>
-                  <th className="px-5 py-3">Date</th>
-                  <th className="px-5 py-3">Check-In</th>
-                  <th className="px-5 py-3">Check-Out</th>
-                  <th className="px-5 py-3">Status</th>
+                  <th className="px-5 py-2.5">Employee</th>
+                  <th className="px-5 py-2.5">Date</th>
+                  <th className="px-5 py-2.5">Clock-in</th>
+                  <th className="px-5 py-2.5">Clock-out</th>
+                  <th className="px-5 py-2.5">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100">

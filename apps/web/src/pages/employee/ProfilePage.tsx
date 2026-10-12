@@ -245,8 +245,8 @@ export const ProfilePage: React.FC = () => {
         {/* Card 2: Security & Credentials */}
         <div className="bg-white border border-zinc-200/80 rounded-xl p-6 shadow-xs space-y-4">
           <div>
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-900">
-              Security & Password
+            <h2 className="text-sm font-semibold text-zinc-900">
+              Security and password
             </h2>
             <p className="text-3xs text-zinc-500 mt-0.5">
               Leave blank if you do not want to change your password.

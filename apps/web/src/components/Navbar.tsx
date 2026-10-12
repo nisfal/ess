@@ -70,7 +70,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu, isMobileMenu
             </div>
 
             {/* Role indicator */}
-            <span className="hidden sm:inline-flex text-3xs font-semibold px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-700 uppercase tracking-wider">
+            <span className="hidden sm:inline-flex text-xs font-medium px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-700">
               {user?.role === 'HRD_ADMIN' ? 'HRD Admin' : 'Employee'}
             </span>
 
