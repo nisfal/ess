@@ -6,10 +6,8 @@ import {
   Users,
   ClipboardCheck,
   Database,
-  Menu,
   X,
-  Shield,
-  Laptop,
+  ChevronRight,
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import { Navbar } from './components/Navbar';
@@ -31,7 +29,6 @@ export const AppContent: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Set default tab based on user role when loaded
   React.useEffect(() => {
     if (user) {
       if (user.role === 'HRD_ADMIN') {
@@ -44,11 +41,8 @@ export const AppContent: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-900 text-white">
-        <div className="flex flex-col items-center space-y-4">
-          <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-          <p className="font-semibold text-slate-300">Memuat Sistem ESS...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center bg-zinc-50 text-zinc-500 text-xs">
+        Loading...
       </div>
     );
   }
@@ -60,21 +54,21 @@ export const AppContent: React.FC = () => {
   const isEmployee = user.role === 'EMPLOYEE';
 
   const employeeNavItems = [
-    { id: 'profile', label: 'Profil Karyawan', icon: UserIcon, desc: 'Identitas, Foto, No HP & Password' },
-    { id: 'attendance', label: 'Absen', icon: Clock, desc: 'Absen Masuk & Pulang Harian' },
-    { id: 'summary', label: 'Summary Absen', icon: FileSpreadsheet, desc: 'Rekap & Filter Rentang Tanggal' },
+    { id: 'profile', label: 'Profile', icon: UserIcon },
+    { id: 'attendance', label: 'Attendance', icon: Clock },
+    { id: 'summary', label: 'Summary', icon: FileSpreadsheet },
   ];
 
   const adminNavItems = [
-    { id: 'employees', label: 'Master Karyawan', icon: Users, desc: 'Tambah & Update Data Karyawan' },
-    { id: 'attendance_monitor', label: 'Monitoring Absensi', icon: ClipboardCheck, desc: 'Lihat Seluruh Absensi (Read Only)' },
-    { id: 'audit_logs', label: 'Audit Log Stream', icon: Database, desc: 'Data Stream Microservice ke DB Terpisah' },
+    { id: 'employees', label: 'Employees', icon: Users },
+    { id: 'attendance_monitor', label: 'Monitoring', icon: ClipboardCheck },
+    { id: 'audit_logs', label: 'Audit Trail', icon: Database },
   ];
 
   const currentNavItems = isEmployee ? employeeNavItems : adminNavItems;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col">
+    <div className="min-h-screen bg-zinc-50 flex flex-col font-sans">
       {/* Realtime Alert Modal for Admin HRD */}
       <NotificationModal
         onViewEmployee={(empId) => {
@@ -88,39 +82,15 @@ export const AppContent: React.FC = () => {
         isMobileMenuOpen={isMobileMenuOpen}
       />
 
-      {/* Main Body with Sidebar & Content */}
-      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col md:flex-row gap-8">
+      {/* Main Body */}
+      <div className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row gap-8">
         {/* DESKTOP SIDEBAR */}
-        <aside className="hidden md:block w-64 shrink-0 space-y-6">
-          {/* User Quick Card */}
-          <div className="bg-white rounded-3xl p-5 shadow-xs border border-slate-200/80">
-            <div className="flex items-center space-x-3">
-              {user.avatarUrl ? (
-                <img
-                  src={user.avatarUrl}
-                  alt={user.name}
-                  className="w-12 h-12 rounded-2xl object-cover ring-2 ring-indigo-100 shadow-xs"
-                />
-              ) : (
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg">
-                  {user.name.charAt(0)}
-                </div>
-              )}
-              <div className="overflow-hidden">
-                <p className="font-bold text-sm text-slate-900 truncate">{user.name}</p>
-                <p className="text-2xs text-slate-400 truncate">{user.position}</p>
-                <span className="inline-block mt-1 text-3xs font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
-                  {user.role === 'HRD_ADMIN' ? 'HRD Admin' : 'Karyawan WFH'}
-                </span>
-              </div>
+        <aside className="hidden md:block w-52 shrink-0">
+          <nav className="sticky top-20 space-y-1">
+            <div className="px-3 pb-2 text-3xs font-semibold text-zinc-400 uppercase tracking-wider">
+              {isEmployee ? 'Self Service' : 'Administration'}
             </div>
-          </div>
 
-          {/* Navigation Menu Links */}
-          <nav className="bg-white rounded-3xl p-3 shadow-xs border border-slate-200/80 space-y-1.5">
-            <div className="px-3 py-2 text-3xs font-bold text-slate-400 uppercase tracking-wider">
-              {isEmployee ? 'Menu Karyawan WFH' : 'Menu Admin HRD'}
-            </div>
             {currentNavItems.map((item) => {
               const Icon = item.icon;
               const isActive = activeTab === item.id;
@@ -128,41 +98,39 @@ export const AppContent: React.FC = () => {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center space-x-3 px-3.5 py-3 rounded-2xl text-left text-xs font-bold transition-all cursor-pointer ${
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                     isActive
-                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20'
-                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                      ? 'bg-zinc-900 text-white shadow-xs'
+                      : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
-                  <span className="truncate">{item.label}</span>
+                  <div className="flex items-center space-x-2.5">
+                    <Icon className="w-4 h-4 shrink-0" />
+                    <span>{item.label}</span>
+                  </div>
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 opacity-60" />}
                 </button>
               );
             })}
           </nav>
         </aside>
 
-        {/* MOBILE SLIDE-OUT / DRAWER MENU */}
+        {/* MOBILE DRAWER */}
         {isMobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-40 bg-slate-900/60 backdrop-blur-2xs flex">
-            <div className="w-4/5 max-w-xs bg-white h-full p-6 shadow-2xl flex flex-col justify-between animate-in slide-in-from-left">
-              <div className="space-y-6">
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-8 h-8 rounded-lg bg-indigo-600 text-white font-bold flex items-center justify-center">
-                      ESS
-                    </div>
-                    <span className="font-bold text-slate-900 text-sm">Menu Navigasi</span>
-                  </div>
+          <div className="md:hidden fixed inset-0 z-40 bg-zinc-900/40 backdrop-blur-2xs flex">
+            <div className="w-64 bg-white h-full p-5 shadow-xl flex flex-col justify-between">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-zinc-100">
+                  <span className="font-semibold text-zinc-900 text-sm">Navigation</span>
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700"
+                    className="p-1 rounded-lg text-zinc-400 hover:text-zinc-700"
                   >
-                    <X className="w-5 h-5" />
+                    <X className="w-4 h-4" />
                   </button>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   {currentNavItems.map((item) => {
                     const Icon = item.icon;
                     const isActive = activeTab === item.id;
@@ -173,13 +141,13 @@ export const AppContent: React.FC = () => {
                           setActiveTab(item.id);
                           setIsMobileMenuOpen(false);
                         }}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 rounded-2xl text-left text-sm font-bold transition-all ${
+                        className={`w-full flex items-center space-x-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                           isActive
-                            ? 'bg-indigo-600 text-white'
-                            : 'text-slate-700 hover:bg-slate-100'
+                            ? 'bg-zinc-900 text-white'
+                            : 'text-zinc-600 hover:bg-zinc-100'
                         }`}
                       >
-                        <Icon className="w-5 h-5 shrink-0" />
+                        <Icon className="w-4 h-4" />
                         <span>{item.label}</span>
                       </button>
                     );
@@ -187,8 +155,8 @@ export const AppContent: React.FC = () => {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-100 text-2xs text-slate-400">
-                Logged in as: <span className="font-bold text-slate-700">{user.email}</span>
+              <div className="pt-3 border-t border-zinc-100 text-3xs text-zinc-400 font-mono truncate">
+                {user.email}
               </div>
             </div>
             <div className="flex-1" onClick={() => setIsMobileMenuOpen(false)} />
@@ -196,8 +164,7 @@ export const AppContent: React.FC = () => {
         )}
 
         {/* MAIN CONTENT AREA */}
-        <main className="flex-1 min-w-0">
-          {/* Employee Views */}
+        <main className="flex-1 min-w-0 pb-16 md:pb-0">
           {isEmployee && (
             <>
               {activeTab === 'profile' && <ProfilePage />}
@@ -206,7 +173,6 @@ export const AppContent: React.FC = () => {
             </>
           )}
 
-          {/* Admin HRD Views */}
           {!isEmployee && (
             <>
               {activeTab === 'employees' && <EmployeesPage />}
@@ -218,7 +184,7 @@ export const AppContent: React.FC = () => {
       </div>
 
       {/* MOBILE BOTTOM NAVIGATION BAR */}
-      <div className="md:hidden sticky bottom-0 z-20 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg px-2 py-2 flex justify-around">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-20 bg-white border-t border-zinc-200 px-2 py-1.5 flex justify-around">
         {currentNavItems.map((item) => {
           const Icon = item.icon;
           const isActive = activeTab === item.id;
@@ -226,12 +192,12 @@ export const AppContent: React.FC = () => {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center py-1 px-3 rounded-xl transition-all ${
-                isActive ? 'text-indigo-600 font-bold' : 'text-slate-400 font-medium'
+              className={`flex flex-col items-center py-1 px-3 rounded-lg transition-colors ${
+                isActive ? 'text-zinc-900 font-semibold' : 'text-zinc-400'
               }`}
             >
-              <Icon className="w-5 h-5 mb-0.5" />
-              <span className="text-3xs">{item.label}</span>
+              <Icon className="w-4 h-4" />
+              <span className="text-3xs mt-0.5">{item.label}</span>
             </button>
           );
         })}

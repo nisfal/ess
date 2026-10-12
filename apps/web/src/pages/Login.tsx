@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Mail, ArrowRight, ShieldCheck, UserCheck, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { Lock, Mail, Eye, EyeOff, Building2, UserCheck, Shield } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export const Login: React.FC = () => {
@@ -19,100 +19,81 @@ export const Login: React.FC = () => {
       await login(email, password);
     } catch (err: any) {
       setErrorMessage(
-        err.response?.data?.message || 'Login gagal. Periksa kembali email dan password Anda.',
+        err.response?.data?.message || 'Invalid credentials. Please verify your email and password.',
       );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleQuickLogin = async (demoEmail: string, demoPass: string) => {
+  const handleQuickSelect = (demoEmail: string, demoPass: string) => {
     setEmail(demoEmail);
     setPassword(demoPass);
     setErrorMessage(null);
-    setIsLoading(true);
-    try {
-      await login(demoEmail, demoPass);
-    } catch (err: any) {
-      setErrorMessage(
-        err.response?.data?.message || 'Login gagal. Periksa kembali email dan password Anda.',
-      );
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Decorative Background Glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 right-10 w-80 h-80 bg-purple-500/15 rounded-full blur-3xl pointer-events-none" />
-
-      <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10 px-4">
-        {/* App Logo & Header */}
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-gradient-to-tr from-indigo-500 to-indigo-700 text-white shadow-xl shadow-indigo-500/30 mb-4 ring-4 ring-indigo-400/20">
-            <span className="text-2xl font-black tracking-wider">ESS</span>
+    <div className="min-h-screen bg-zinc-50 flex flex-col justify-center items-center px-4 py-12">
+      <div className="w-full max-w-sm">
+        {/* Brand Header */}
+        <div className="flex flex-col items-center mb-8 text-center">
+          <div className="h-10 w-10 rounded-xl bg-zinc-900 text-white flex items-center justify-center font-bold text-base shadow-xs mb-3">
+            <Building2 className="w-5 h-5" />
           </div>
-          <h2 className="text-3xl font-extrabold text-white tracking-tight">
-            Portal WFH & Monitoring
-          </h2>
-          <p className="mt-2 text-sm text-slate-400">
-            Sistem Presensi Karyawan & Administrasi HRD Terintegrasi
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900">
+            Sign in to ESS Platform
+          </h1>
+          <p className="text-xs text-zinc-500 mt-1">
+            Enterprise WFH Attendance & Employee Portal
           </p>
         </div>
 
-        {/* Login Card */}
-        <div className="mt-8 bg-white/95 backdrop-blur-md py-8 px-6 shadow-2xl rounded-3xl border border-white/20 sm:px-10">
+        {/* Main Card */}
+        <div className="bg-white rounded-xl border border-zinc-200/80 shadow-xs p-6 sm:p-8">
           {errorMessage && (
-            <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-start space-x-2">
-              <span className="font-bold">Error:</span>
-              <span>{errorMessage}</span>
+            <div className="mb-5 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs">
+              {errorMessage}
             </div>
           )}
 
-          <form className="space-y-5" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                Email Perusahaan
+              <label className="block text-xs font-medium text-zinc-700 mb-1.5">
+                Corporate Email
               </label>
-              <div className="relative rounded-xl shadow-2xs">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Mail className="h-5 w-5" />
-                </div>
+              <div className="relative">
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="nama.karyawan@company.com"
-                  className="block w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                  placeholder="name@company.com"
+                  className="w-full px-3 py-2 text-sm bg-white border border-zinc-200 rounded-lg text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">
-                Password
-              </label>
-              <div className="relative rounded-xl shadow-2xs">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                  <Lock className="h-5 w-5" />
-                </div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-medium text-zinc-700">
+                  Password
+                </label>
+              </div>
+              <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="block w-full pl-11 pr-11 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
+                  className="w-full px-3 py-2 pr-9 text-sm bg-white border border-zinc-200 rounded-lg text-zinc-900 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900 transition-colors"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 focus:outline-none cursor-pointer"
+                  className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-zinc-400 hover:text-zinc-600 focus:outline-none cursor-pointer"
                 >
-                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
             </div>
@@ -120,63 +101,52 @@ export const Login: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex justify-center items-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg shadow-indigo-600/30 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all cursor-pointer"
+              className="w-full mt-2 py-2.5 px-4 bg-zinc-900 hover:bg-zinc-800 text-white text-sm font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-zinc-900 disabled:opacity-50 cursor-pointer"
             >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              ) : (
-                <>
-                  <span>Masuk ke Akun</span>
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </>
-              )}
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </button>
           </form>
 
-          {/* Quick Demo Credentials Buttons */}
-          <div className="mt-8 pt-6 border-t border-slate-100">
-            <div className="flex items-center space-x-1.5 text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>Akses Cepat Pengujian (Reviewer)</span>
-            </div>
-
-            <div className="grid grid-cols-1 gap-2">
+          {/* Discreet Demo Switcher */}
+          <div className="mt-6 pt-5 border-t border-zinc-100">
+            <p className="text-3xs font-semibold uppercase tracking-wider text-zinc-400 mb-2 text-center">
+              Evaluation Credentials
+            </p>
+            <div className="grid grid-cols-2 gap-2 text-xs">
               <button
                 type="button"
-                onClick={() => handleQuickLogin('budi.santoso@company.com', 'Password123!')}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-200 hover:border-indigo-400 hover:bg-indigo-50/50 transition-all text-left text-xs cursor-pointer group"
+                onClick={() => handleQuickSelect('budi.santoso@company.com', 'Password123!')}
+                className="p-2 border border-zinc-200 rounded-lg hover:border-zinc-300 hover:bg-zinc-50 text-left transition-colors cursor-pointer"
               >
-                <div className="flex items-center space-x-2">
-                  <div className="p-1.5 bg-blue-100 text-blue-700 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <UserCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-slate-800 block">Budi Santoso (Karyawan)</span>
-                    <span className="text-2xs text-slate-400">budi.santoso@company.com</span>
-                  </div>
+                <div className="flex items-center space-x-1.5 text-zinc-700 font-medium">
+                  <UserCheck className="w-3.5 h-3.5 text-zinc-500" />
+                  <span className="truncate">Budi (Staff)</span>
                 </div>
-                <span className="font-semibold text-indigo-600 text-2xs">Pilih & Masuk →</span>
+                <div className="text-3xs text-zinc-400 font-mono mt-0.5 truncate">
+                  budi.santoso@company.com
+                </div>
               </button>
 
               <button
                 type="button"
-                onClick={() => handleQuickLogin('admin.hrd@company.com', 'Password123!')}
-                className="w-full flex items-center justify-between p-2.5 rounded-xl border border-slate-200 hover:border-purple-400 hover:bg-purple-50/50 transition-all text-left text-xs cursor-pointer group"
+                onClick={() => handleQuickSelect('admin.hrd@company.com', 'Password123!')}
+                className="p-2 border border-zinc-200 rounded-lg hover:border-zinc-300 hover:bg-zinc-50 text-left transition-colors cursor-pointer"
               >
-                <div className="flex items-center space-x-2">
-                  <div className="p-1.5 bg-purple-100 text-purple-700 rounded-lg group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                    <ShieldCheck className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-slate-800 block">Dewi Lestari (Admin HRD)</span>
-                    <span className="text-2xs text-slate-400">admin.hrd@company.com</span>
-                  </div>
+                <div className="flex items-center space-x-1.5 text-zinc-700 font-medium">
+                  <Shield className="w-3.5 h-3.5 text-zinc-500" />
+                  <span className="truncate">Dewi (HRD)</span>
                 </div>
-                <span className="font-semibold text-purple-600 text-2xs">Pilih & Masuk →</span>
+                <div className="text-3xs text-zinc-400 font-mono mt-0.5 truncate">
+                  admin.hrd@company.com
+                </div>
               </button>
             </div>
           </div>
         </div>
+
+        <p className="text-center text-3xs text-zinc-400 mt-6">
+          Employee Self Service &bull; Internal HR Network
+        </p>
       </div>
     </div>
   );

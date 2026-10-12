@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LogOut, Shield, User as UserIcon, Radio, Menu, X } from 'lucide-react';
+import { LogOut, Building2, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getSocket } from '../services/socket';
 
@@ -29,98 +29,76 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu, isMobileMenu
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200/80 shadow-2xs">
+    <header className="sticky top-0 z-30 bg-white border-b border-zinc-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Left Brand & Mobile Menu Button */}
+        <div className="flex justify-between items-center h-14">
+          {/* Left: Brand & Mobile Toggle */}
           <div className="flex items-center space-x-3">
             <button
               onClick={onToggleMobileMenu}
-              className="md:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none"
+              className="md:hidden p-1.5 rounded-lg text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
             <div className="flex items-center space-x-2.5">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-                <span className="font-extrabold text-lg tracking-wider">ESS</span>
+              <div className="h-7 w-7 rounded-lg bg-zinc-900 text-white flex items-center justify-center font-bold text-xs">
+                <Building2 className="w-4 h-4" />
               </div>
-              <div>
-                <span className="font-bold text-slate-900 text-lg leading-tight block">
-                  Attendance & Monitor
+              <div className="flex items-baseline space-x-2">
+                <span className="font-semibold text-zinc-900 text-sm tracking-tight">
+                  ESS Portal
                 </span>
-                <span className="text-2xs text-slate-500 font-medium">Enterprise WFH Platform</span>
+                <span className="hidden sm:inline text-3xs text-zinc-400 font-mono uppercase tracking-wider">
+                  v1.0
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Right Status & User Info */}
-          <div className="flex items-center space-x-4">
-            {/* Live Socket Status indicator */}
-            <div
-              className={`hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
-                isConnected
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  : 'bg-amber-50 text-amber-700 border border-amber-200'
-              }`}
-            >
+          {/* Right: Live Connection & User */}
+          <div className="flex items-center space-x-3">
+            {/* Minimal Live Status indicator */}
+            <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-full text-3xs font-mono text-zinc-600 bg-zinc-50 border border-zinc-200">
               <span
-                className={`w-2 h-2 rounded-full ${
-                  isConnected ? 'bg-emerald-500 animate-ping' : 'bg-amber-500'
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isConnected ? 'bg-emerald-500' : 'bg-amber-500'
                 }`}
               />
-              <Radio className="w-3.5 h-3.5" />
-              <span>{isConnected ? 'Realtime Live' : 'Connecting'}</span>
+              <span>{isConnected ? 'Realtime Connected' : 'Connecting'}</span>
             </div>
 
-            {/* Role Badge */}
-            <span
-              className={`hidden md:inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${
-                user?.role === 'HRD_ADMIN'
-                  ? 'bg-purple-100 text-purple-800 border border-purple-200'
-                  : 'bg-indigo-100 text-indigo-800 border border-indigo-200'
-              }`}
-            >
-              {user?.role === 'HRD_ADMIN' ? (
-                <>
-                  <Shield className="w-3.5 h-3.5 mr-1" />
-                  Admin HRD
-                </>
-              ) : (
-                <>
-                  <UserIcon className="w-3.5 h-3.5 mr-1" />
-                  Karyawan WFH
-                </>
-              )}
+            {/* Role indicator */}
+            <span className="hidden sm:inline-flex text-3xs font-semibold px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-700 uppercase tracking-wider">
+              {user?.role === 'HRD_ADMIN' ? 'HRD Admin' : 'Employee'}
             </span>
 
-            {/* User Profile avatar & dropdown/action */}
-            <div className="flex items-center space-x-3 pl-2 border-l border-slate-200">
-              <div className="flex items-center space-x-2.5">
-                {user?.avatarUrl ? (
-                  <img
-                    src={user.avatarUrl}
-                    alt={user.name}
-                    className="w-9 h-9 rounded-full object-cover ring-2 ring-indigo-500/20"
-                  />
-                ) : (
-                  <div className="w-9 h-9 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center font-bold text-sm">
-                    {user?.name?.charAt(0) || 'U'}
-                  </div>
-                )}
-                <div className="hidden lg:block text-left">
-                  <p className="text-xs font-bold text-slate-800 leading-none">{user?.name}</p>
-                  <p className="text-2xs text-slate-500 truncate max-w-[130px]">{user?.position}</p>
+            {/* User profile dropdown / logout */}
+            <div className="flex items-center space-x-2 pl-2 border-l border-zinc-200">
+              {user?.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt={user.name}
+                  className="w-7 h-7 rounded-full object-cover border border-zinc-200"
+                />
+              ) : (
+                <div className="w-7 h-7 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center font-medium text-xs">
+                  {user?.name?.charAt(0) || 'U'}
                 </div>
+              )}
+              <div className="hidden lg:block text-left text-xs">
+                <p className="font-medium text-zinc-900 leading-none truncate max-w-[120px]">
+                  {user?.name}
+                </p>
               </div>
 
               <button
                 onClick={logout}
-                className="p-2 text-slate-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer"
-                title="Keluar / Logout"
+                className="p-1.5 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-lg transition-colors cursor-pointer"
+                title="Sign out"
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut className="w-4 h-4" />
               </button>
             </div>
           </div>

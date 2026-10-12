@@ -2,12 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Calendar,
   Search,
-  Filter,
-  CheckCircle,
-  Clock,
-  ArrowRight,
   RotateCcw,
-  FileSpreadsheet,
+  Download,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Attendance } from '../../types';
@@ -81,177 +77,130 @@ export const SummaryPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in duration-300">
-      {/* Title */}
+    <div className="space-y-6">
+      {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Summary Absensi WFH
+        <h1 className="text-xl font-bold tracking-tight text-zinc-900">
+          Attendance History
         </h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Riwayat kehadiran kerja bulanan dan filter rentang tanggal.
+        <p className="text-xs text-zinc-500 mt-0.5">
+          Review your attendance records and filter by date range.
         </p>
       </div>
 
-      {/* FILTER BOX ACCORDING TO TEST SPEC */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 shadow-sm border border-slate-200/80">
-        <div className="flex items-center space-x-2 text-sm font-bold text-slate-800 mb-4">
-          <Filter className="w-4 h-4 text-indigo-600" />
-          <span>Filter Tanggal (From - To)</span>
-        </div>
-
+      {/* Filter Toolbar */}
+      <div className="bg-white border border-zinc-200/80 rounded-xl p-4 shadow-xs">
         <form
           onSubmit={handleFilterSubmit}
-          className="flex flex-col md:flex-row items-end gap-4"
+          className="flex flex-col sm:flex-row items-end gap-3"
         >
-          {/* From Date */}
-          <div className="w-full md:w-1/3">
-            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-              Dari Tanggal (From)
+          <div className="w-full sm:w-48">
+            <label className="block text-3xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+              From Date
             </label>
-            <div className="relative rounded-xl shadow-2xs">
-              <input
-                type="date"
-                required
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="block w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
-              />
-            </div>
+            <input
+              type="date"
+              required
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full px-3 py-1.5 text-xs bg-white border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:border-zinc-900 transition-colors"
+            />
           </div>
 
-          {/* To Date */}
-          <div className="w-full md:w-1/3">
-            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-              Sampai Tanggal (To)
+          <div className="w-full sm:w-48">
+            <label className="block text-3xs font-semibold uppercase tracking-wider text-zinc-500 mb-1">
+              To Date
             </label>
-            <div className="relative rounded-xl shadow-2xs">
-              <input
-                type="date"
-                required
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="block w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all"
-              />
-            </div>
+            <input
+              type="date"
+              required
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full px-3 py-1.5 text-xs bg-white border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:border-zinc-900 transition-colors"
+            />
           </div>
 
-          {/* Action Buttons */}
-          <div className="w-full md:w-auto flex items-center space-x-2 pt-2 md:pt-0">
+          <div className="flex items-center space-x-2 w-full sm:w-auto">
             <button
               type="submit"
               disabled={isLoading}
-              className="flex-1 md:flex-none inline-flex items-center justify-center px-6 py-2.5 border border-transparent rounded-xl shadow-md shadow-indigo-600/20 text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 transition-all cursor-pointer"
+              className="px-3.5 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-lg transition-colors cursor-pointer shadow-xs"
             >
-              <Search className="w-4 h-4 mr-1.5" />
-              <span>Cari</span>
+              Search
             </button>
-
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center justify-center px-3.5 py-2.5 border border-slate-200 rounded-xl text-sm font-medium text-slate-600 hover:bg-slate-100 transition-all cursor-pointer"
-              title="Reset ke bulan berjalan"
+              className="p-1.5 border border-zinc-200 rounded-lg text-zinc-600 hover:bg-zinc-100 transition-colors cursor-pointer"
+              title="Reset range"
             >
-              <RotateCcw className="w-4 h-4" />
+              <RotateCcw className="w-3.5 h-3.5" />
             </button>
           </div>
         </form>
-
-        <p className="text-2xs text-slate-400 mt-3">
-          * Default menampilkan data dari awal bulan berjalan (tanggal 1) sampai hari ini.
-        </p>
       </div>
 
-      {/* SUMMARY RESULT TABLE */}
-      <div className="bg-white rounded-3xl shadow-sm border border-slate-200/80 overflow-hidden">
-        <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <FileSpreadsheet className="w-5 h-5 text-indigo-600" />
-            <h2 className="text-base font-bold text-slate-800">
-              Hasil Presensi ({records.length} Record)
-            </h2>
-          </div>
-          <span className="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg">
-            Periode: {startDate} s/d {endDate}
+      {/* Table */}
+      <div className="bg-white border border-zinc-200/80 rounded-xl shadow-xs overflow-hidden">
+        <div className="px-5 py-3.5 border-b border-zinc-100 flex items-center justify-between text-xs">
+          <span className="font-semibold text-zinc-900">
+            Records ({records.length})
+          </span>
+          <span className="text-3xs text-zinc-400 font-mono">
+            {startDate} to {endDate}
           </span>
         </div>
 
         {isLoading ? (
-          <div className="py-16 text-center text-slate-400">
-            <div className="w-8 h-8 border-3 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-            <p className="text-sm">Memuat data absensi...</p>
+          <div className="py-12 text-center text-xs text-zinc-400">
+            Loading attendance records...
           </div>
         ) : records.length === 0 ? (
-          <div className="py-16 text-center text-slate-400 space-y-2">
-            <Calendar className="w-10 h-10 mx-auto text-slate-300" />
-            <p className="text-sm font-medium text-slate-600">Tidak ada riwayat absensi</p>
-            <p className="text-xs text-slate-400">
-              Tidak ditemukan data pada rentang tanggal {startDate} s/d {endDate}.
-            </p>
+          <div className="py-12 text-center text-xs text-zinc-400">
+            No records found for the selected range.
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-600">
-              <thead className="bg-slate-50 text-xs font-bold uppercase tracking-wider text-slate-700 border-b border-slate-200">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-zinc-50/80 text-3xs font-semibold uppercase tracking-wider text-zinc-500 border-b border-zinc-200">
                 <tr>
-                  <th scope="col" className="px-6 py-4">
-                    Tanggal
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Masuk
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Pulang
-                  </th>
-                  <th scope="col" className="px-6 py-4">
-                    Status
-                  </th>
+                  <th className="px-5 py-3">Date</th>
+                  <th className="px-5 py-3">Check-In</th>
+                  <th className="px-5 py-3">Check-Out</th>
+                  <th className="px-5 py-3">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-zinc-100 font-mono text-xs">
                 {records.map((item) => (
-                  <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
-                    {/* Tanggal */}
-                    <td className="px-6 py-4 font-mono font-bold text-slate-900 whitespace-nowrap">
+                  <tr key={item.id} className="hover:bg-zinc-50/60 transition-colors">
+                    <td className="px-5 py-3 font-medium text-zinc-900">
                       {item.date}
                     </td>
-
-                    {/* Masuk */}
-                    <td className="px-6 py-4 font-mono font-medium text-slate-800 whitespace-nowrap">
+                    <td className="px-5 py-3 text-zinc-700">
                       {item.inTime ? (
-                        <div className="flex items-center space-x-1.5 text-emerald-700 font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                          <span>{item.date} {formatTimeOnly(item.inTime)}</span>
-                        </div>
+                        <span>{item.date} {formatTimeOnly(item.inTime)}</span>
                       ) : (
-                        <span className="text-slate-400">-</span>
+                        <span className="text-zinc-300">-</span>
                       )}
                     </td>
-
-                    {/* Pulang */}
-                    <td className="px-6 py-4 font-mono font-medium text-slate-800 whitespace-nowrap">
+                    <td className="px-5 py-3 text-zinc-700">
                       {item.outTime ? (
-                        <div className="flex items-center space-x-1.5 text-rose-700 font-semibold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
-                          <span>{item.date} {formatTimeOnly(item.outTime)}</span>
-                        </div>
+                        <span>{item.date} {formatTimeOnly(item.outTime)}</span>
                       ) : (
-                        <span className="text-slate-400">-</span>
+                        <span className="text-zinc-300">-</span>
                       )}
                     </td>
-
-                    {/* Status */}
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-5 py-3 font-sans">
                       <span
-                        className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
+                        className={`inline-flex items-center px-2 py-0.5 rounded text-3xs font-medium ${
                           item.outTime
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                            ? 'bg-zinc-100 text-zinc-700 border border-zinc-200'
                             : item.inTime
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-slate-100 text-slate-500'
+                            : 'bg-zinc-100 text-zinc-400'
                         }`}
                       >
-                        {item.outTime ? 'Selesai Pulang' : item.inTime ? 'Masuk Bekerja' : 'Belum'}
+                        {item.outTime ? 'Completed' : item.inTime ? 'Present' : 'Absent'}
                       </span>
                     </td>
                   </tr>
