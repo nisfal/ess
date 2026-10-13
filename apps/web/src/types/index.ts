@@ -35,12 +35,16 @@ export interface AuditLog {
   timestamp: string;
 }
 
-export interface ProfileUpdateAlert {
+export interface AppNotification {
   id: string;
   employeeId: string;
   employeeName: string;
   employeeEmail: string;
   changedFields: string[];
   timestamp: string;
+  read: boolean;
   details?: any;
 }
+
+export type ProfileUpdateAlert = AppNotification;
+

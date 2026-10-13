@@ -10,6 +10,7 @@ import {
   ChevronRight,
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
+import { useNotifications } from './context/NotificationContext';
 import { Navbar } from './components/Navbar';
 import { NotificationModal } from './components/NotificationModal';
 import { Login } from './pages/Login';
@@ -26,8 +27,15 @@ import { AuditLogsPage } from './pages/admin/AuditLogsPage';
 
 export const AppContent: React.FC = () => {
   const { user, isLoading } = useAuth();
+  const { setOnNavigateToEmployee } = useNotifications();
   const [activeTab, setActiveTab] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  React.useEffect(() => {
+    setOnNavigateToEmployee(() => {
+      setActiveTab('employees');
+    });
+  }, [setOnNavigateToEmployee]);
 
   React.useEffect(() => {
     if (user) {

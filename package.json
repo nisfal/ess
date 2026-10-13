@@ -9,9 +9,10 @@
   "scripts": {
     "start:dev": "concurrently -n \"GATEWAY,AUDIT,FRONTEND\" -c \"cyan.bold,magenta.bold,green.bold\" \"npm --prefix apps/api-gateway run start:dev\" \"npm --prefix apps/audit-service run start:dev\" \"npm --prefix apps/web run dev\"",
     "build": "npm --prefix apps/api-gateway run build && npm --prefix apps/audit-service run build && npm --prefix apps/web run build",
-    "db:setup": "npm --prefix apps/api-gateway run db:setup && npm --prefix apps/audit-service run db:setup"
+    "db:setup": "npm --prefix apps/api-gateway run db:setup && npm --prefix apps/audit-service run db:setup",
+    "install:all": "npm install && npm --prefix apps/api-gateway install && npm --prefix apps/audit-service install && npm --prefix apps/web install"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.2.5"
   }
 }

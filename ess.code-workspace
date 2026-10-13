@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "ess",
+			"path": "."
+		},
+		{
+			"name": ".agents",
+			"path": "../me/.agents"
+		}
+	],
+	"settings": {}
+}

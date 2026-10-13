@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { LogOut, Building2, Menu, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { getSocket } from '../services/socket';
+import { NotificationDropdown } from './NotificationDropdown';
 
 interface NavbarProps {
   onToggleMobileMenu?: () => void;
@@ -73,6 +74,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onToggleMobileMenu, isMobileMenu
             <span className="hidden sm:inline-flex text-xs font-medium px-2 py-0.5 rounded border border-zinc-200 bg-zinc-50 text-zinc-700">
               {user?.role === 'HRD_ADMIN' ? 'HRD Admin' : 'Employee'}
             </span>
+
+            {/* Notification Menu (HRD Admin) */}
+            {user?.role === 'HRD_ADMIN' && <NotificationDropdown />}
 
             {/* User profile dropdown / logout */}
             <div className="flex items-center space-x-2 pl-2 border-l border-zinc-200">
