@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { User } from '../../types';
+import { AvatarUpload } from '../../components/AvatarUpload';
 
 export const EmployeesPage: React.FC = () => {
   const [employees, setEmployees] = useState<User[]>([]);
@@ -355,15 +356,14 @@ export const EmployeesPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-zinc-700 mb-1">
-                  Avatar Image URL (Optional)
+                <label className="block text-xs font-medium text-zinc-700 mb-1.5">
+                  Foto Profil (Maksimal 2 MB)
                 </label>
-                <input
-                  type="text"
+                <AvatarUpload
                   value={formData.avatarUrl}
-                  onChange={(e) => setFormData({ ...formData, avatarUrl: e.target.value })}
-                  placeholder="https://..."
-                  className="w-full px-3 py-1.5 text-xs bg-white border border-zinc-200 rounded-lg text-zinc-900 focus:outline-none focus:border-zinc-900"
+                  onChange={(newUrl) => setFormData({ ...formData, avatarUrl: newUrl })}
+                  maxSizeMB={2}
+                  initialName={formData.name || 'K'}
                 />
               </div>
 

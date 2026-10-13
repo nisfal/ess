@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { AvatarUpload } from '../../components/AvatarUpload';
 
 export const ProfilePage: React.FC = () => {
   const { user, updateUserContext } = useAuth();
@@ -27,15 +28,6 @@ export const ProfilePage: React.FC = () => {
     changedFields: string[];
   } | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const avatarPresets = [
-    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80',
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80',
-  ];
 
   useEffect(() => {
     if (user) {
@@ -137,54 +129,26 @@ export const ProfilePage: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Card 1: Identity & Contact */}
         <div className="bg-white border border-zinc-200/80 rounded-xl p-6 shadow-xs space-y-5">
-          <div className="flex items-center space-x-4 pb-5 border-b border-zinc-100">
-            {avatarUrl ? (
-              <img
-                src={avatarUrl}
-                alt={user?.name}
-                className="w-16 h-16 rounded-full object-cover border border-zinc-200"
-              />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 flex items-center justify-center font-bold text-lg">
-                {user?.name?.charAt(0) || 'U'}
-              </div>
-            )}
+          <div className="flex items-center justify-between pb-4 border-b border-zinc-100">
             <div>
               <p className="text-sm font-semibold text-zinc-900">{user?.name}</p>
               <p className="text-xs text-zinc-500 font-mono mt-0.5">{user?.email}</p>
-              <span className="inline-block mt-1 text-3xs font-medium px-2 py-0.5 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">
-                {user?.position}
-              </span>
             </div>
+            <span className="inline-block text-3xs font-medium px-2.5 py-1 rounded bg-zinc-100 text-zinc-700 border border-zinc-200">
+              {user?.position}
+            </span>
           </div>
 
-          {/* Quick Avatar Selector */}
+          {/* Upload Foto Profil dengan Batasan Ukuran Maksimal */}
           <div>
-            <label className="block text-xs font-medium text-zinc-700 mb-2">
-              Profile Photo Preset
+            <label className="block text-xs font-semibold text-zinc-800 mb-2">
+              Foto Profil
             </label>
-            <div className="flex items-center space-x-2 mb-2">
-              {avatarPresets.map((preset, idx) => (
-                <button
-                  type="button"
-                  key={idx}
-                  onClick={() => setAvatarUrl(preset)}
-                  className={`w-9 h-9 rounded-full overflow-hidden border transition-all cursor-pointer ${
-                    avatarUrl === preset
-                      ? 'border-zinc-900 ring-2 ring-zinc-900/10 scale-105'
-                      : 'border-zinc-200 opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img src={preset} alt={`Avatar ${idx}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
-            </div>
-            <input
-              type="text"
+            <AvatarUpload
               value={avatarUrl}
-              onChange={(e) => setAvatarUrl(e.target.value)}
-              placeholder="Or enter image URL (https://...)"
-              className="w-full px-3 py-1.5 text-xs bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-900 focus:bg-white transition-colors"
+              onChange={(newUrl) => setAvatarUrl(newUrl)}
+              maxSizeMB={2}
+              initialName={user?.name || 'U'}
             />
           </div>
 
